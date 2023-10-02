@@ -1,0 +1,4 @@
+1. Compilar o arquivo "main.c"
+2. Executar o arquivo criado passando arquivos HTML como argumento.
+
+Ex ./main /localizacao/do/arquivo.html /localizacao/do/arquivo2.html
