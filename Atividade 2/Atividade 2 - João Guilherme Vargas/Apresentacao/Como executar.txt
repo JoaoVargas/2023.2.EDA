@@ -1,0 +1,2 @@
+1. Subistiruir na linha 54 do arquivo "principal.c" com o caminho para o dataset.csv
+2. Compilar e rodar o arquivo "principal.c"

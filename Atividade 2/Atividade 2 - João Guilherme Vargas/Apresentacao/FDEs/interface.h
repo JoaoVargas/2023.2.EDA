@@ -1,6 +1,7 @@
 #include "stdio.h"
 #include "stdlib.h"
 #include "string.h"
+#include <time.h>
 
 #define FALSE 0
 #define TRUE 1
@@ -30,10 +31,10 @@ typedef struct desc {
 } descFDE;
 
 //======================APLICACAO=====================
-void menu(descFDE *descritor);
+infoNode transformaCSV(char *linha);
 //==================FDE S/ REF MOVEL==================
 descFDE *criaSRM(int tamInfo);
-int insereSRM(infoNode *novo, descFDE *p, int (*compara)(infoNode *novo, infoNode *visitado));
+int insereSRM(infoNode *novo, descFDE *p, int (*compara)(infoNode *novo, infoNode *visitado), int *total);
 int tamanhoDaFilaSRM(descFDE *p);
 int reiniciaSRM(descFDE *p);
 descFDE *destroiSRM(descFDE *p);

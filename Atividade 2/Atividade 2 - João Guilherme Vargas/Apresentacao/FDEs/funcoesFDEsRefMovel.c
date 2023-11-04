@@ -15,8 +15,9 @@ descFDE *criaSRM(int tamInfo) {
 }
 
 /*************** INSERE NA CAUDA ***************/
-int insereSRM(infoNode *novo, descFDE *descritor, int (*comparaSRM)(infoNode *novo, infoNode *visitado)) {
+int insereSRM(infoNode *novo, descFDE *descritor, int (*comparaSRM)(infoNode *novo, infoNode *visitado), int *totalIteracoes) {
   int comparacao;
+  int iteracoes = 0;
   nodeFDE *novoNodeFDE = NULL, *visitado = NULL;
 
   if ((novoNodeFDE = (nodeFDE *)malloc(sizeof(nodeFDE))) == NULL) { // Caso problema com descritor
@@ -40,6 +41,7 @@ int insereSRM(infoNode *novo, descFDE *descritor, int (*comparaSRM)(infoNode *no
     descritor->cauda->atras = novoNodeFDE;
     descritor->cauda = novoNodeFDE;
 
+    iteracoes ++;
     return 1;
   }
 
@@ -47,6 +49,8 @@ int insereSRM(infoNode *novo, descFDE *descritor, int (*comparaSRM)(infoNode *no
 
   while (visitado->atras != NULL && (*comparaSRM)(novo, &(visitado->dados)) != MAIOR) {  // Move visitado enquanto novo for menor q ele
     visitado = visitado->atras;
+
+    iteracoes ++;
   }
 
   comparacao = (*comparaSRM)(novo, &(visitado->dados));
@@ -66,20 +70,13 @@ int insereSRM(infoNode *novo, descFDE *descritor, int (*comparaSRM)(infoNode *no
     visitado->afrente = novoNodeFDE;
     novoNodeFDE->atras = visitado;
   }
-  // else //<<<- novo item é o de menor prioridade de todos na fila, sendo a nova cauda:
-  // condição já tratadana linha com comentário "novo elemento é o de menor prioridade"
-  //{
-  //	novoNoFila->afrente = visitado;
-  //	novoNoFila->atras = NULL;
-  //	visitado->atras = novoNoFila;
-  //	p->cauda = novoNoFila;
-  // }
 
+  *totalIteracoes += iteracoes;
   return 1;
 }
 
 /*************** REMOVE DA FRENTE ***************/
-int removeSRM(infoNode *reg, descFDE *descritor) {
+int removeFrenteSRM(infoNode *reg, descFDE *descritor) {
   nodeFDE *aux = descritor->cauda;
 
   if (descritor->cauda != NULL && descritor->frente != NULL) { // Caso exista algo na FDE
@@ -170,7 +167,7 @@ int reiniciaSRM(descFDE *descritor) {
 
 /*************** DESTROI ***************/
 descFDE *destroiSRM(descFDE *descritor) {
-  reinicia(descritor);
+  reiniciaSRM(descritor);
   free(descritor);
   
   return NULL;  // aterra o ponteiro externo, declarado na aplicação
