@@ -51,7 +51,7 @@ int main(int argc, char const *argv[]) {
   char linha[256];
 
   //LOCALIZAÇÃO DO CSV
-  FILE *datasetCSV = fopen("/home/jotausr/Projetos/UDESC/2023.2.EDA/Atividade 2/Atividade 2 - João Guilherme Vargas/Apresentacao/Aux/dataset_v1.csv", "r");
+  FILE *datasetCSV = fopen("/home/jotausr/Projetos/UDESC/2023.2.EDA/Atividade 2 - Fila/Atividade 2 - João Guilherme Vargas/Apresentacao/Aux/dataset_v1.csv", "r");
 
   fgets(linha, 256, datasetCSV);// Ignorar a primeira linha
   
@@ -77,11 +77,15 @@ int main(int argc, char const *argv[]) {
   for (size_t i = 0; i < TAMANHO_NUM_CASOS; i++) { // Zerando a lista de medias por numero de casos
     listaMediaPorNumCasos[i] = 0;
   }
-  
 
-  for (size_t k = 0; k < 50; k++) { // Loop para repetir o estudo 50 vezes e pegar uma media
+  clock_t clo;
+  double time_taken;
+
+  for (size_t k = 0; k < 1; k++) { // Loop para repetir o estudo 50 vezes e pegar uma media
 
     for (size_t i = 0; i < TAMANHO_NUM_CASOS; i++) { // Loop inicial percorre o numero de conjuntos aka 18
+      clo = clock();
+
       if ((descritor = criaSRM(sizeof(infoNode))) == 0) { // Cria um descritor de FDE S/ RM
         printf("ERRO: Criacao do FDE s/ RM");
       }
@@ -94,14 +98,19 @@ int main(int argc, char const *argv[]) {
       descritor = destroiSRM(descritor); // Ao fim destroi o descritor
       listaMediaPorNumCasos[i] += totalIteracoes / listaNumCasos[i]; // Salva no vetor as medias por caso
       totalIteracoes = 0;
-    }
 
+      clo = clock() - clo;
+      time_taken = ((double)clo) / CLOCKS_PER_SEC;
+
+      printf("%f \n", time_taken);
+      clo = 0;
+    }
   }
   
 
 
   for (size_t i = 0; i < TAMANHO_NUM_CASOS; i++) { // Printar os resultados na tela
-    printf("%d,%d\n", listaNumCasos[i], listaMediaPorNumCasos[i] / 50);
+    printf("%d,%d\n", listaNumCasos[i], listaMediaPorNumCasos[i] / 1);
   }
   
 
